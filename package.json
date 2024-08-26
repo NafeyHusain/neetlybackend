@@ -1,0 +1,40 @@
+{
+  "name": "backend-neetly",
+  "version": "1.0.0",
+  "description": "This is backend of neetly ai project",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mern",
+    "open",
+    "api"
+  ],
+  "author": "nafey",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.17.1",
+    "axios": "^1.7.5",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "bson": "^6.8.0",
+    "concurrently": "^8.2.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.2.0",
+    "imagekit": "^5.1.0",
+    "jsonwebtoken": "^9.0.1",
+    "mongodb": "^4.17.1",
+    "mongoose": "^8.5.4",
+    "openai": "^4.56.0",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
