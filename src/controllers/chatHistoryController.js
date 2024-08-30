@@ -1,5 +1,7 @@
 const Chat = require("../models/chat");
 
+const UserChats = require("../models/userChats");
+
 exports.chatsHistory = async (req, res) => {
     const userId = req.auth.userId;
     const { text } = req.body;
@@ -52,11 +54,10 @@ exports.chatsHistory = async (req, res) => {
 };
 
 exports.userChats = async (req, res) => {
-    const userId = req.userId;
+    const userId = req.auth.userId;
 
     try {
         const userChats = await UserChats.find({ userId });
-
         res.status(200).send(userChats[0].chats);
     } catch (err) {
         console.log(err);
@@ -74,5 +75,34 @@ exports.userChatWithID = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).send("Error fetching chat!");
+    }
+};
+
+exports.updateChatWithId = async (req, res) => {
+    const userId = req.auth.userId;
+
+    const { question, answer, img } = req.body;
+    console.log(req.body);
+
+    const newItems = [
+        ...(question ? [{ role: "user", parts: [{ text: question }], ...(img && { img }) }] : []),
+        { role: "model", parts: [{ text: answer }] },
+    ];
+
+    try {
+        const updatedChat = await Chat.updateOne(
+            { _id: req.params.id, userId },
+            {
+                $push: {
+                    history: {
+                        $each: newItems,
+                    },
+                },
+            }
+        );
+        res.status(200).send(updatedChat);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error adding conversation!");
     }
 };

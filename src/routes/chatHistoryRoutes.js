@@ -1,10 +1,14 @@
 const express = require("express");
-const { chatsHistory, userChats, userChatWithID } = require("../controllers/chatHistoryController");
+const { ClerkExpressRequireAuth } = require("@clerk/clerk-sdk-node");
+
+// Rest of your code
+const { chatsHistory, userChats, userChatWithID, updateChatWithId } = require("../controllers/chatHistoryController");
 
 const router = express.Router();
 
-router.post("/addChats", chatsHistory);
-router.get("/userchats", userChats);
-router.get("/chats/:id", userChatWithID);
+router.post("/chats", ClerkExpressRequireAuth(), chatsHistory);
+router.get("/userchats", ClerkExpressRequireAuth(), userChats);
+router.get("/chats/:id", ClerkExpressRequireAuth(), userChatWithID);
+router.put("/chats/:id", ClerkExpressRequireAuth(), updateChatWithId);
 
 module.exports = router;

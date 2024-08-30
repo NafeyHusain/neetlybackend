@@ -13,19 +13,40 @@ const safetySettings = [
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env.GOOLE_GEMINI_API_KEY);
-
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }, safetySettings);
+
+const chat = model.startChat({
+    history: [
+        {
+            role: "user",
+            parts: [{ text: "Hello" }],
+        },
+        {
+            role: "model",
+            parts: [{ text: "Great to meet you. What would you like to know?" }],
+        },
+    ],
+    generationCOnfig: {
+        //   maxOutputTokens: 100,
+    },
+});
+
 async function generateTextMessage(topic) {
     try {
-        const prompt = `${topic}`;
-
-        const result = await model.generateContent(prompt);
+        //   const prompt = `${topic}`;
+        const result = await chat.sendMessageStream(topic);
         // Assuming a method like generateText exists on the model object
         //   const response = await model.generateContent({
         //       prompt,
         //   });
+        let accumulatedText = "";
+        for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+
+            accumulatedText += chunkText;
+        }
         const response = await result.response;
-        const text = response.text();
+        const text = accumulatedText;
 
         const jsonMatch = text;
         if (jsonMatch) {
