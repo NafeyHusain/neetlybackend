@@ -47,12 +47,12 @@ const KRUTRIM_API_URL = "https://cloud.olakrutrim.com/v1/chat/completions";
 // }
 
 async function generateMCQs(topic, numberOfQuestions = 10) {
-    const prompt = `Generate ${numberOfQuestions} multiple-choice questions about ${topic}. For each question, provide 4 options and indicate the correct answer. Format the output as a JSON array of objects, where each object has the properties: question, options (an array of 4 strings), and correctAnswer (index of the correct option, 0-based). should not contain other than jsonarray and correct answer should consist only index, and exclude which are already generated `;
+    const prompt = `Generate ${numberOfQuestions} multiple-choice questions about ${topic}. For each question, provide 4 options and indicate the correct answer ,include explaination for each question answer. Format the output as a JSON array of objects, where each object has the properties: question, options (an array of 4 strings), and correctAnswer (index of the correct option, 0-based),explaination on the answer. should not contain other than jsonarray and correct answer should consist only index, and exclude which are already generated `;
 
     const data = {
         model: "Meta-Llama-3-8B-Instruct",
         messages: [
-            { role: "system", content: "You are a helpful assistant specialized in generating MCQs." },
+            { role: "system", content: "You are a helpful doctor professional who is specalised in mbbs ,md other degree and you are generating questions for pg neet preparation" },
             { role: "user", content: prompt },
         ],
         frequency_penalty: 0,

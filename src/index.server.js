@@ -43,7 +43,7 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: `localhost:${process.env.PORT}`, 
+          url: `http://localhost:${process.env.PORT}`, 
         },
       ],
     },
@@ -68,7 +68,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use("/api", userRoutes);
-app.use("/api", mcqRoutes);
+app.use("/api/mcq", mcqRoutes);
 app.use("/api", chatHistoryRoutes);
 app.use("/api", textRoutes);
 
