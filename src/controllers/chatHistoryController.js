@@ -2,6 +2,36 @@ const Chat = require("../models/chat");
 
 const UserChats = require("../models/userChats");
 
+/**
+ * @swagger
+ * /api/chats:
+ *   post:
+ *     summary: Create a new chat
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - text
+ *             properties:
+ *               text:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Chat created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               description: ID of the created chat
+ *       500:
+ *         description: Error creating chat
+ */
 exports.chatsHistory = async (req, res) => {
     const userId = req.auth.userId;
     const { text } = req.body;
@@ -53,6 +83,31 @@ exports.chatsHistory = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/chats:
+ *   get:
+ *     summary: Get user's chats
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of user's chats
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *       500:
+ *         description: Error fetching userchats
+ */
 exports.userChats = async (req, res) => {
     const userId = req.auth.userId;
 
@@ -65,6 +120,30 @@ exports.userChats = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/chats/{id}:
+ *   get:
+ *     summary: Get a specific chat by ID
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Chat details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chat'
+ *       500:
+ *         description: Error fetching chat
+ */
 exports.userChatWithID = async (req, res) => {
     const userId = req.auth.userId;
 
@@ -78,6 +157,43 @@ exports.userChatWithID = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/chats/{id}:
+ *   put:
+ *     summary: Update a chat with new messages
+ *     tags: [Chats]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               question:
+ *                 type: string
+ *               answer:
+ *                 type: string
+ *               img:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Chat updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chat'
+ *       500:
+ *         description: Error adding conversation
+ */
 exports.updateChatWithId = async (req, res) => {
     const userId = req.auth.userId;
 
@@ -106,3 +222,32 @@ exports.updateChatWithId = async (req, res) => {
         res.status(500).send("Error adding conversation!");
     }
 };
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Chat:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *         userId:
+ *           type: string
+ *         history:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *               parts:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     text:
+ *                       type: string
+ *               img:
+ *                 type: string
+ */

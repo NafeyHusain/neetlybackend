@@ -4,6 +4,40 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const shortid = require("shortid");
 
+/**
+ * @swagger
+ * /api/signup:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - password
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       400:
+ *         description: User already exists or something wrong with the database
+ *       500:
+ *         description: Server error
+ */
 exports.signup = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(async (user) => {
@@ -40,6 +74,56 @@ exports.signup = (req, res) => {
         });
 };
 
+/**
+ * @swagger
+ * /api/signin:
+ *   post:
+ *     summary: Authenticate a user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User authenticated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                     firstName:
+ *                       type: string
+ *                     lastName:
+ *                       type: string
+ *                     email:
+ *                       type: string
+ *                     role:
+ *                       type: string
+ *                     fullName:
+ *                       type: string
+ *       400:
+ *         description: Something went wrong
+ *       404:
+ *         description: User not found or incorrect password
+ */
 exports.signin = (req, res) => {
     User.findOne({ email: req.body.email })
         .then(async (user) => {

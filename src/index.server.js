@@ -1,6 +1,9 @@
 const express = require("express");
 const env = require("dotenv");
 const app = express();
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 
 const mongoose = require("mongoose");
 
@@ -30,6 +33,26 @@ app.use((err, req, res, next) => {
     res.status(401).send("Unauthenticated!");
 });
 
+const swaggerOptions = {
+    definition: {
+      openapi: '3.0.0',
+      info: {
+        title: 'Your API',
+        version: '1.0.0',
+        description: 'API documentation for your backend',
+      },
+      servers: [
+        {
+          url: `http://localhost:${process.env.PORT}`, 
+        },
+      ],
+    },
+    apis: ['./src/controllers/*.js'], 
+  };
+  
+  const swaggerSpec = swaggerJsdoc(swaggerOptions);
+  
+
 const uri = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@neetlyai.ahpac.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority&appName=Neetlyai`;
 
 // Connect to MongoDB
@@ -45,7 +68,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use("/api", userRoutes);
-app.use("/api", mcqRoutes);
+app.use("/api/mcq", mcqRoutes);
 app.use("/api", chatHistoryRoutes);
 app.use("/api", textRoutes);
 
@@ -53,6 +76,8 @@ app.get("/api/upload", (req, res) => {
     const result = imagekit.getAuthenticationParameters();
     res.send(result);
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
