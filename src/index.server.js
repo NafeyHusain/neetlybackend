@@ -24,7 +24,7 @@ const imagekit = new ImageKit({
 
 env.config();
 
-app.use(cors({ origin:[ process.env.CLIENT_URL,'http://localhost:3000'], credentials: true }));
+app.use(cors({ origin:[ process.env.CLIENT_URL,'http://localhost:3000',"https://neetlybackend.vercel.app"], credentials: true }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
