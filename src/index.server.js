@@ -50,7 +50,6 @@ const swaggerOptions = {
     apis: ['src/controllers/*.js'],
   };
   
-  const swaggerSpec = swaggerJsdoc(swaggerOptions);
   
 
 const uri = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@neetlyai.ahpac.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority&appName=Neetlyai`;
