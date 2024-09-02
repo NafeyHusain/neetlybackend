@@ -6,10 +6,10 @@ const { chatsHistory, userChats, userChatWithID, updateChatWithId } = require(".
 
 const router = express.Router();
 
-router.post("/chats", ClerkExpressRequireAuth(), chatsHistory);
-router.get("/userchats", ClerkExpressRequireAuth(), userChats);
-router.get("/chats/:id", ClerkExpressRequireAuth(), userChatWithID);
-router.put("/chats/:id", ClerkExpressRequireAuth(), updateChatWithId);
+// router.post("/chats", ClerkExpressRequireAuth(), chatsHistory);
+// router.get("/userchats", ClerkExpressRequireAuth(), userChats);
+// router.get("/chats/:id", ClerkExpressRequireAuth(), userChatWithID);
+// router.put("/chats/:id", ClerkExpressRequireAuth(), updateChatWithId);
 
 
 router.post("/chats",  chatsHistory);
