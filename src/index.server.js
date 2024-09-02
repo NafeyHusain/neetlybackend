@@ -47,7 +47,7 @@ const swaggerOptions = {
         },
       ],
     },
-    apis: ['./src/controllers/*.js'], 
+    apis: ['./controllers/*.js'],
   };
   
   const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -76,7 +76,7 @@ app.get("/api/upload", (req, res) => {
     const result = imagekit.getAuthenticationParameters();
     res.send(result);
 });
-swaggerOptions.definition.info.version = new Date().toISOString();
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
