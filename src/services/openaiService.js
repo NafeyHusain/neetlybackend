@@ -49,7 +49,7 @@ const KRUTRIM_API_URL = "https://cloud.olakrutrim.com/v1/chat/completions";
 // }
 
 async function generateMCQs(topic, numberOfQuestions = 10) {
-    const prompt = `Generate ${numberOfQuestions} multiple-choice questions about ${topic}. For each question, provide 4 options and indicate the correct answer ,include explaination for each question answer. Format the output as a JSON array of objects, where each object has the properties: question as text label,subject field where topic lies in, options (an array of 4 strings), and correctAnswer (index of the correct option, 0-based),explaination on the answer. should not contain other than jsonarray and correct answer should consist only index, and exclude which are already generated `;
+    const prompt = `Generate ${numberOfQuestions} multiple-choice questions about ${topic}. For each question, provide 4 options and indicate the correct answer ,include explaination for each question answer keep in mind explanaination should be like professional doctor. Format the output as a JSON array of objects, where each object has the properties: question as text label,subject field where topic lies in, options (an array of 4 strings), and correctAnswer (index of the correct option, 0-based),explaination on the answer. should not contain other than jsonarray and correct answer should consist only index, and exclude which are already generated `;
 
     const data = {
         model: "Meta-Llama-3-8B-Instruct",
