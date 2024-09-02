@@ -47,7 +47,7 @@ const swaggerOptions = {
         },
       ],
     },
-    apis: ['./controllers/*.js'],
+    apis: ['src/controllers/*.js'],
   };
   
   const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -77,8 +77,11 @@ app.get("/api/upload", (req, res) => {
     res.send(result);
 });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.use('/api-docs', (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+  }, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
