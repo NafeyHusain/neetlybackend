@@ -77,7 +77,8 @@ app.get("/api/upload", (req, res) => {
 });
 
 const specs = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', express.static('node_modules/swagger-ui-dist', {index: false}),swaggerUi.serve, swaggerUi.setup(specs));
+app.use('/api-docs', swaggerUi.serve,    swaggerUi.setup(specs, { explorer: true })
+);
 
   
 
