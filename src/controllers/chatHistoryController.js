@@ -33,7 +33,10 @@ const UserChats = require("../models/userChats");
  *         description: Error creating chat
  */
 exports.chatsHistory = async (req, res) => {
-    const userId = 1234567;
+    console.log(req.body);
+    // const userId = 1234567;
+    const { userId } = auth();
+
     const { text } = req.body;
 
     try {
@@ -109,7 +112,10 @@ exports.chatsHistory = async (req, res) => {
  *         description: Error fetching userchats
  */
 exports.userChats = async (req, res) => {
-    const userId = 1234567;
+    // const userId = 1234567;
+    const { userId } = auth();
+
+    console.log(req.body);
 
     try {
         const userChats = await UserChats.find({ userId });
@@ -145,7 +151,10 @@ exports.userChats = async (req, res) => {
  *         description: Error fetching chat
  */
 exports.userChatWithID = async (req, res) => {
-    const userId = 1234567;
+    // const userId = 1234567;
+    const { userId } = auth();
+
+    console.log(req.body);
 
     try {
         const chat = await Chat.findOne({ _id: req.params.id, userId });
@@ -195,7 +204,9 @@ exports.userChatWithID = async (req, res) => {
  *         description: Error adding conversation
  */
 exports.updateChatWithId = async (req, res) => {
-    const userId = 1234567;
+    // const userId = 1234567;
+    const { userId } = auth();
+    console.log(req.body);
 
     const { question, answer, img } = req.body;
     console.log(req.body);
