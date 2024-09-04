@@ -33,9 +33,8 @@ const UserChats = require("../models/userChats");
  *         description: Error creating chat
  */
 exports.chatsHistory = async (req, res) => {
-    console.log(req.body);
     // const userId = 1234567;
-    const { userId } = auth();
+    const userId = req.auth.userId;
 
     const { text } = req.body;
 
@@ -113,7 +112,7 @@ exports.chatsHistory = async (req, res) => {
  */
 exports.userChats = async (req, res) => {
     // const userId = 1234567;
-    const { userId } = auth();
+    const userId = req.auth.userId;
 
     console.log(req.body);
 
@@ -152,7 +151,7 @@ exports.userChats = async (req, res) => {
  */
 exports.userChatWithID = async (req, res) => {
     // const userId = 1234567;
-    const { userId } = auth();
+    const userId = req.auth.userId;
 
     console.log(req.body);
 
@@ -205,7 +204,7 @@ exports.userChatWithID = async (req, res) => {
  */
 exports.updateChatWithId = async (req, res) => {
     // const userId = 1234567;
-    const { userId } = auth();
+    const userId = req.auth.userId;
     console.log(req.body);
 
     const { question, answer, img } = req.body;
