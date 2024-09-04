@@ -1,9 +1,9 @@
 const express = require("express");
 const env = require("dotenv");
 const app = express();
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const Clerk = require("@clerk/clerk-sdk-node/cjs/instance").default;
 
 const mongoose = require("mongoose");
 
@@ -24,7 +24,17 @@ const imagekit = new ImageKit({
 
 env.config();
 
-app.use(cors({ origin:[ process.env.CLIENT_URL,'http://localhost:3000',"https://neetlybackend.vercel.app","https://neetly-frontend.vercel.app"], credentials: true }));
+app.use(
+    cors({
+        origin: [
+            process.env.CLIENT_URL,
+            "http://localhost:3000",
+            "https://neetlybackend.vercel.app",
+            "https://neetly-frontend.vercel.app",
+        ],
+        credentials: true,
+    })
+);
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
@@ -33,24 +43,29 @@ app.use((err, req, res, next) => {
     res.status(401).send("Unauthenticated!");
 });
 
+const clerkClient = Clerk({ secretKey: process.env.CLERK_SECRET_KEY });
+
+clerkClient.sessions
+    .getSessionList()
+    .then((sessions) => console.log(sessions))
+    .catch((error) => console.error(error));
+
 const swaggerOptions = {
     definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Your API',
-        version: '1.0.0',
-        description: 'API documentation for your backend',
-      },
-      servers: [
-        {
-          url: `https://neetlybackend.vercel.app`, 
+        openapi: "3.0.0",
+        info: {
+            title: "Your API",
+            version: "1.0.0",
+            description: "API documentation for your backend",
         },
-      ],
+        servers: [
+            {
+                url: `https://neetlybackend.vercel.app`,
+            },
+        ],
     },
-    apis: ['src/controllers/*.js'],
-  };
-  
-  
+    apis: ["src/controllers/*.js"],
+};
 
 const uri = `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@neetlyai.ahpac.mongodb.net/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority&appName=Neetlyai`;
 
@@ -77,10 +92,7 @@ app.get("/api/upload", (req, res) => {
 });
 
 const specs = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve,    swaggerUi.setup(specs, { explorer: true })
-);
-
-  
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
