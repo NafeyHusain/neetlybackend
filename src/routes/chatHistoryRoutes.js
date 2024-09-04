@@ -11,9 +11,9 @@ const router = express.Router();
 // router.get("/chats/:id", ClerkExpressRequireAuth(), userChatWithID);
 // router.put("/chats/:id", ClerkExpressRequireAuth(), updateChatWithId);
 
-router.post("/chats",  chatsHistory);
-router.get("/userchats",  userChats);
-router.get("/chats/:id",  userChatWithID);
+router.post("/chats", chatsHistory);
+router.get("/userchats", userChats);
+router.get("/chats/:id", userChatWithID);
 router.put("/chats/:id", updateChatWithId);
 
 module.exports = router;
