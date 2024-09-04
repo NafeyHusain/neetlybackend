@@ -3,8 +3,6 @@ const env = require("dotenv");
 const app = express();
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-const Clerk = require("@clerk/clerk-sdk-node/cjs/instance").default;
-
 const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/userRoutes");
@@ -42,13 +40,6 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(401).send("Unauthenticated!");
 });
-
-const clerkClient = Clerk({ secretKey: process.env.CLERK_SECRET_KEY });
-
-clerkClient.sessions
-    .getSessionList()
-    .then((sessions) => console.log(sessions))
-    .catch((error) => console.error(error));
 
 const swaggerOptions = {
     definition: {
