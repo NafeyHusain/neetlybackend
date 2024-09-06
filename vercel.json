@@ -23,5 +23,10 @@
       "src": "/(.*)",
       "dest": "src/index.server.js"
     }
-  ]
+  ],
+  "functions":{
+    "/(.*)":{
+      "maxDuration":30
+    }
+  }
   }
