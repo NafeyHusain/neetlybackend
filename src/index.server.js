@@ -24,7 +24,12 @@ env.config();
 
 app.use(
     cors({
-        origin: '*',
+        origin: [
+            process.env.CLIENT_URL,
+            "http://localhost:3000",
+            "https://neetlybackend.vercel.app",
+            "https://neetly-frontend.vercel.app",
+        ],
         credentials: true,
     })
 );
