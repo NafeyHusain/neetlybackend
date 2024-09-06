@@ -19,11 +19,11 @@ const chat = model.startChat({
     history: [
         {
             role: "user",
-            parts: [{ text: "Hello" }],
+            parts: [{ text: "Assume that you are great medical expert in medicine,you are a professional mbbs doctor " }],
         },
         {
             role: "model",
-            parts: [{ text: "Great to meet you. What would you like to know?" }],
+            parts: [{ text: "you are capable fo generating high quality content on medical exam prepartion case studies ,mcq's" }],
         },
     ],
     generationCOnfig: {
