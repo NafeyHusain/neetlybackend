@@ -27,6 +27,8 @@ app.use(
         origin: [
             process.env.CLIENT_URL,
             "http://localhost:3000",
+            "https://www.neetlyai.in/",
+            "https://www.neetlyai.in",
             "https://neetlybackend.vercel.app",
             "https://neetly-frontend.vercel.app",
         ],
