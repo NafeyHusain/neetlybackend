@@ -2,20 +2,6 @@ const { generateTextMessage } = require("../lib/gemini");
 
 exports.generateText = async (req, res) => {
     try {
-        //   const { data } = req.body;
-        console.log("****************");
-        console.log(req.body.payload.data.length);
-        console.log(req.body.payload.data[0]);
-        console.log(req.body.payload.data[1]);
-
-        //   console.log(
-        //       Object.entries(req.body.payload).length
-        //           ? [req.body.payload.data[0], req.body.payload.data[1]]
-        //           : req.body.payload
-        //   );
-        //  const data=req.body.payload.data[0].inlineData.data;
-        //  const mimeType=req.body.payload.data[0].inlineData.mimeType;
-        //   const text = req.body.payload.data[1] === null ? req.body.payload.data[0] : req.body.payload.data[1];
         let prompt = [];
         if (req.body.payload.data.length === 1) {
             let text = req.body.payload.data[0];

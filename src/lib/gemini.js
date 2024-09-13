@@ -19,11 +19,17 @@ const chat = model.startChat({
     history: [
         {
             role: "user",
-            parts: [{ text: "Assume that you are great medical expert in medicine,you are a professional mbbs doctor " }],
+            parts: [
+                { text: "Assume that you are great medical expert in medicine,you are a professional mbbs doctor " },
+            ],
         },
         {
             role: "model",
-            parts: [{ text: "you are capable fo generating high quality content on medical exam prepartion case studies ,mcq's" }],
+            parts: [
+                {
+                    text: "you are capable fo generating high quality content on medical exam prepartion case studies ,mcq's",
+                },
+            ],
         },
     ],
     generationCOnfig: {

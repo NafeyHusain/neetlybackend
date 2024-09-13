@@ -9,6 +9,8 @@ const userRoutes = require("./routes/userRoutes");
 const mcqRoutes = require("./routes/mcqRoutes");
 const chatHistoryRoutes = require("./routes/chatHistoryRoutes");
 const textRoutes = require("./routes/textAnswersRoutes.js");
+
+const mcqHistoryRoutes = require("./routes/mcqHistoryRoutes.js");
 const ImageKit = require("imagekit");
 const cors = require("cors");
 
@@ -78,6 +80,7 @@ app.use("/api", userRoutes);
 app.use("/api/mcq", mcqRoutes);
 app.use("/api", chatHistoryRoutes);
 app.use("/api", textRoutes);
+app.use("/api", mcqHistoryRoutes);
 
 app.get("/api/upload", (req, res) => {
     const result = imagekit.getAuthenticationParameters();
