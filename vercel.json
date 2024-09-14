@@ -1,27 +1,32 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "src/index.server.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api-docs/swagger-ui-init.js",
-        "dest": "src/index.server.js"
-      },
-      {
-        "src": "/api-docs/(.+map|.+css)",
-        "dest": "https://cdn.jsdelivr.net/npm/swagger-ui-dist/$1"
-      },
-      {
-        "src": "/api-docs/swagger-ui(.*).js",
-        "dest": "https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui$1.js"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "src/index.server.js"
-      }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api-docs/swagger-ui-init.js",
+      "dest": "src/index.server.js"
+    },
+    {
+      "src": "/api-docs/(.+map|.+css)",
+      "dest": "https://cdn.jsdelivr.net/npm/swagger-ui-dist/$1"
+    },
+    {
+      "src": "/api-docs/swagger-ui(.*).js",
+      "dest": "https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui$1.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "src/index.server.js"
+    }
+  ],
+  "functions": {
+    "src/index.server.js": {
+      "maxDuration": 30
+    }
+  }
 }
