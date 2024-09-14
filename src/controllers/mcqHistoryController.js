@@ -28,7 +28,7 @@ const UserQuestions = require("../models/questionChat");
  *         description: Server error
  */
 exports.mcqHistory = async (req, res) => {
-    const userId = 1234;
+    const userId = req.auth.userId;
     try {
         // Assuming req.body contains the quiz data
         const { topic, totalQuestions, questionData, marks } = req.body;
@@ -97,7 +97,7 @@ exports.mcqHistory = async (req, res) => {
 };
 
 exports.mcqHistoryWithId = async (req, res) => {
-    const userId = 1234;
+    const userId = req.auth.userId;
 
     try {
         const chat = await Question.findOne({ _id: req.params.id, userId });
@@ -110,7 +110,7 @@ exports.mcqHistoryWithId = async (req, res) => {
 };
 
 exports.userMcqHistory = async (req, res) => {
-    const userId = 1234;
+    const userId = req.auth.userId;
     try {
         const userQuestions = await UserQuestions.find({ userId });
         console.log(userQuestions[0].questions);
