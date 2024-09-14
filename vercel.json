@@ -19,7 +19,7 @@
     }
   ],
   "functions": {
-    "/(.*)": {
+    "api-docs/(.*)": {
       "maxDuration": 30
     }
   }
