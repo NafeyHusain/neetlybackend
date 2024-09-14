@@ -42,7 +42,7 @@ exports.chatsHistory = async (req, res) => {
         // CREATE A NEW CHAT
         const newChat = new Chat({
             userId: userId,
-            history: [{ role: "user", parts: [{ text }] }],
+            // history: [{ role: "user", parts: [{ text }] }],
         });
 
         const savedChat = await newChat.save();
