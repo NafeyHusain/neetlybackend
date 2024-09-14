@@ -23,7 +23,7 @@ const UserChats = require("../models/userChats");
  *                 type: string
  *     responses:
  *       201:
- *         description: Chat created successfully
+
  *         content:
  *           application/json:
  *             schema:
