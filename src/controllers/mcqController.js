@@ -40,7 +40,7 @@ exports.generateMCQ = async (req, res) => {
             return res.status(400).json({ error: "Topic is required" });
         }
 
-        const mcqs = await generateMCQs(topic, numberOfQuestions || 5);
+        const mcqs = await generateMCQs(topic, numberOfQuestions || 15);
         res.json(mcqs);
     } catch (error) {
         console.error("Error in generateMCQ:", error);

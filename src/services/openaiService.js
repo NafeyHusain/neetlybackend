@@ -1,8 +1,7 @@
 const axios = require("axios");
 require("dotenv").config();
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 const { generateTextMessage } = require("../lib/gemini");
-
 
 const KRUTRIM_API_KEY = process.env.KRUTRIM_API_KEY;
 const KRUTRIM_API_URL = "https://cloud.olakrutrim.com/v1/chat/completions";
@@ -79,8 +78,8 @@ async function generateMCQs(topic, numberOfQuestions = 10) {
     //             Authorization: `Bearer ${KRUTRIM_API_KEY}`,
     //         },
     //     });
-    try{
-        const result = await generateTextMessage(prompt);
+    try {
+        const result = await generateMCQs(prompt);
         console.log(result);
         // const content = result.response.data.choices[0].message.content;
         // console.log(content);
@@ -88,18 +87,18 @@ async function generateMCQs(topic, numberOfQuestions = 10) {
         if (jsonMatch) {
             try {
                 const mcqs = JSON.parse(jsonMatch[0]);
-                const mcqsWithUuid = mcqs.map(question => {
+                const mcqsWithUuid = mcqs.map((question) => {
                     const correctAnswerText = question.options[question.correctAnswer];
                     return {
-                      id: uuidv4(),
-                      subject:question.subject == null ?"not define":question.subject,
-                      text: question.question,
-                      type:"single",
-                      options:question.options,
-                      correct: [correctAnswerText],
-                      explanation:question.explanation,
+                        id: uuidv4(),
+                        subject: question.subject == null ? "not define" : question.subject,
+                        text: question.question,
+                        type: "single",
+                        options: question.options,
+                        correct: [correctAnswerText],
+                        explanation: question.explanation,
                     };
-                  });
+                });
                 return mcqsWithUuid;
             } catch (parseError) {
                 console.error("Error parsing extracted JSON:", parseError);
