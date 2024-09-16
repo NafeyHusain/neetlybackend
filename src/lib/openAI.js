@@ -3,7 +3,7 @@ const OpenAIApi = require("openai"); // Import OpenAI
 
 // Initialize OpenAI API with your key
 const openai = new OpenAIApi({
-    apiKey: process.env.OPENAI_API_KEY, // Ensure your API key is stored as an environment variable
+    apiKey: process.env.OPENAI_API_KEY,
 });
 // Chat model using GPT-4
 const chatModel = async (history) => {
