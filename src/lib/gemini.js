@@ -53,7 +53,7 @@ const mcqModel = model.startChat({
             role: "model",
             parts: [
                 {
-                    text: "you are capable of generating expert level  content on medical  case studies and medical exam prepartion mulitple choice questions for people practising medicine and the questions you generate should be tough and hard",
+                    text: "you are capable of generating expert level  content on medical exam prepartion mulitple choice questions and the questions you generate should be tough and hard",
                 },
             ],
         },
