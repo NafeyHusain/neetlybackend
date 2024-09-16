@@ -133,7 +133,7 @@ async function generateMultipleChoice(topic) {
     }
 }
 
-module.exports = { generateTextMessage };
+module.exports = { generateTextMessage, generateMultipleChoice };
 
 // const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require("@google/generative-ai");
 

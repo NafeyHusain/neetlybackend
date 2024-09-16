@@ -1,52 +1,10 @@
 const axios = require("axios");
 require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
-const { generateTextMessage } = require("../lib/gemini");
+const { generateMultipleChoice } = require("../lib/gemini");
 
 const KRUTRIM_API_KEY = process.env.KRUTRIM_API_KEY;
 const KRUTRIM_API_URL = "https://cloud.olakrutrim.com/v1/chat/completions";
-
-// async function generateMCQs(topic, numberOfQuestions = 10) {
-//     const prompt = `Generate ${numberOfQuestions} multiple-choice questions about ${topic}. For each question, provide 4 options and indicate the correct answer. Format the output as a JSON array of objects, where each object has the properties: question, options (an array of 4 strings), and correctAnswer (index of the correct option, 0-based). shuould not contain other than jsonarray and correct answer should consist only index, and exclude which are already generated for nafey`;
-//     const url = "https://api.openai.com/v1/completions"; // OpenAI API endpoint for completions
-//     const apiKey = KRUTRIM_API_KEY; // Replace with your OpenAI API key
-
-//     const data = {
-//         model: "gpt-4o-mini", // Specify the GPT-4 model
-//         messages: [
-//             {
-//                 role: "system",
-//                 content: "You are a helpful assistant.",
-//             },
-//             {
-//                 role: "user",
-//                 content: prompt, // User's prompt
-//             },
-//         ],
-//         max_tokens: 100, // Adjust this value according to your needs
-//         temperature: 0.7,
-//     };
-
-//     try {
-//         const response = await fetch(url, {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${apiKey}`,
-//             },
-//             body: JSON.stringify(data),
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`Error: ${response.status}`);
-//         }
-
-//         const result = await response.json();
-//         console.log(result.choices[0].text.trim()); // Log the response from the API
-//     } catch (error) {
-//         console.error("Error calling OpenAI API:", error);
-//     }
-// }
 
 async function generateMCQs(topic, numberOfQuestions = 10) {
     const prompt = `Generate ${numberOfQuestions} multiple-choice questions about ${topic}. For each question, provide 4 options and indicate the correct answer ,include explaination for each question answer keep in mind explanaination should be like professional doctor. Format the output as a JSON array of objects, where each object has the properties: question as text label,subject field where topic lies in, options (an array of 4 strings), and correctAnswer (index of the correct option, 0-based),explaination on the answer. should not contain other than jsonarray and correct answer should consist only index, and exclude which are already generated `;
@@ -79,7 +37,7 @@ async function generateMCQs(topic, numberOfQuestions = 10) {
     //         },
     //     });
     try {
-        const result = await generateMCQs(prompt);
+        const result = await generateMultipleChoice(prompt);
         console.log(result);
         // const content = result.response.data.choices[0].message.content;
         // console.log(content);
