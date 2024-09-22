@@ -2,6 +2,7 @@ const axios = require("axios");
 require("dotenv").config();
 const { v4: uuidv4 } = require("uuid");
 const { generateMultipleChoice, generateTextMessage } = require("../lib/gemini");
+const { generateTextMessageOpenAI } = require("../lib/openAI");
 
 const KRUTRIM_API_KEY = process.env.KRUTRIM_API_KEY;
 const KRUTRIM_API_URL = "https://cloud.olakrutrim.com/v1/chat/completions";
@@ -37,7 +38,7 @@ async function generateMCQs(topic, numberOfQuestions = 10) {
     //         },
     //     });
     try {
-        const result = await generateTextMessage(prompt);
+        const result = await generateTextMessageOpenAI(prompt);
         console.log(result);
         // const content = result.response.data.choices[0].message.content;
         // console.log(content);

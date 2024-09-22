@@ -4,7 +4,7 @@ const UserQuestions = require("../models/questionChat");
 
 /**
  * @swagger
- * /mcq/mcq-history:
+ * /api/mcq/mcqHistory:
  *   post:
  *     summary: Save MCQ history for a user
  *     tags: [MCQ]
@@ -130,7 +130,7 @@ exports.mcqHistory = async (req, res) => {
 
 /**
  * @swagger
- * /mcq/mcq-history/{id}:
+ * /api/mcq/questHistory/{id}:
  *   get:
  *     summary: Get MCQ history by ID
  *     tags: [MCQ]
@@ -209,7 +209,7 @@ exports.mcqHistoryWithId = async (req, res) => {
 
 /**
  * @swagger
- * /mcq/user-mcq-history:
+ * /api/mcq/userMcqHistory:
  *   get:
  *     summary: Get MCQ history for the authenticated user
  *     tags: [MCQ]
@@ -247,7 +247,7 @@ exports.userMcqHistory = async (req, res) => {
 
 /**
  * @swagger
- * /mcq/mcq-history/{id}:
+ * /api/mcq/questHistory/{id}:
  *   put:
  *     summary: Update MCQ history by ID
  *     tags: [MCQ]
