@@ -53,7 +53,7 @@ async function generateMultipleChoiceOpenAI(topic) {
             role: "user",
             content: `Assume experienced medical expert Generate tough and detailed multiple-choice questions on the topic: ${topic}`,
         };
-        const history = [...initialChatHistory, userMessage];
+        const history = [userMessage];
 
         // Call OpenAI API to generate MCQs
         const response = await chatModel(history);

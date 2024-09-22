@@ -238,7 +238,8 @@ exports.userMcqHistory = async (req, res) => {
     try {
         const userQuestions = await UserQuestions.find({ userId });
         console.log(userQuestions[0].questions);
-        res.status(200).send("userQuestions[0].questions");
+        const questionsArray = [...userQuestions[0].questions];
+        res.status(200).send(questionsArray);
     } catch (err) {
         console.log(err);
         res.status(500).send("Error fetching userchats!");
