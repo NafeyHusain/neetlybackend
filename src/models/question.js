@@ -41,7 +41,7 @@ const QuestionSchema = new mongoose.Schema({
                     },
                     explanation: {
                         type: String,
-                        required: true,
+                        default: "not defined",
                     },
                     subject: {
                         type: String,
@@ -49,7 +49,7 @@ const QuestionSchema = new mongoose.Schema({
                     },
 
                     userAnswer: {
-                        type: [Number],
+                        type: [String],
                         default: [],
                     },
                 },

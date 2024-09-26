@@ -14,6 +14,38 @@ const UserQuestions = require("../models/questionChat");
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               topic:
+ *                 type: string
+ *               totalQuestions:
+ *                 type: integer
+ *               questionData:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     text:
+ *                       type: string
+ *                     type:
+ *                       type: string
+ *                     options:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     correct:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     explanation:
+ *                       type: string
+ *                     subject:
+ *                       type: string
+ *                     userAnswer:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *               marks:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: MCQ history saved successfully
@@ -96,6 +128,72 @@ exports.mcqHistory = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/mcq/questHistory/{id}:
+ *   get:
+ *     summary: Get MCQ history by ID
+ *     tags: [MCQ]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the MCQ history to retrieve
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: MCQ history retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 userId:
+ *                   type: string
+ *                 history:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       topic:
+ *                         type: string
+ *                       totalQuestions:
+ *                         type: integer
+ *                       marks:
+ *                         type: integer
+ *                       questionData:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             text:
+ *                               type: string
+ *                             type:
+ *                               type: string
+ *                             options:
+ *                               type: array
+ *                               items:
+ *                                 type: string
+ *                             correct:
+ *                               type: array
+ *                               items:
+ *                                 type: string
+ *                             explanation:
+ *                               type: string
+ *                             subject:
+ *                               type: string
+ *                             userAnswer:
+ *                               type: array
+ *                               items:
+ *                                 type: string
+ *       404:
+ *         description: MCQ history not found
+ *       500:
+ *         description: Server error
+ */
 exports.mcqHistoryWithId = async (req, res) => {
     const userId = req.auth.userId;
 
@@ -109,18 +207,111 @@ exports.mcqHistoryWithId = async (req, res) => {
     }
 };
 
+/**
+ * @swagger
+ * /api/mcq/userMcqHistory:
+ *   get:
+ *     summary: Get MCQ history for the authenticated user
+ *     tags: [MCQ]
+ *     responses:
+ *       200:
+ *         description: User's MCQ history retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *       500:
+ *         description: Server error
+ */
 exports.userMcqHistory = async (req, res) => {
     const userId = req.auth.userId;
     try {
         const userQuestions = await UserQuestions.find({ userId });
         console.log(userQuestions[0].questions);
-        res.status(200).send("userQuestions[0].questions");
+        const questionsArray = [...userQuestions[0].questions];
+        res.status(200).send(questionsArray);
     } catch (err) {
         console.log(err);
         res.status(500).send("Error fetching userchats!");
     }
 };
 
+/**
+ * @swagger
+ * /api/mcq/questHistory/{id}:
+ *   put:
+ *     summary: Update MCQ history by ID
+ *     tags: [MCQ]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the MCQ history to update
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               topic:
+ *                 type: string
+ *               totalQuestions:
+ *                 type: integer
+ *               questionData:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     text:
+ *                       type: string
+ *                     type:
+ *                       type: string
+ *                     options:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     correct:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *                     explanation:
+ *                       type: string
+ *                     subject:
+ *                       type: string
+ *                     userAnswer:
+ *                       type: array
+ *                       items:
+ *                         type: string
+ *               marks:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: MCQ history updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       404:
+ *         description: MCQ history not found
+ *       500:
+ *         description: Server error
+ */
 exports.updateMcqHistoryWithId = async (req, res) => {
     const userId = req.auth.userId;
     console.log(req.body);
