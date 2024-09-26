@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const mcqRoutes = require("./routes/mcqRoutes");
 const chatHistoryRoutes = require("./routes/chatHistoryRoutes");
 const textRoutes = require("./routes/textAnswersRoutes.js");
+const openAIRoutes = require("./routes/openAI/answerGeneratorOpenAI.js");
 
 const mcqHistoryRoutes = require("./routes/mcqHistoryRoutes.js");
 const ImageKit = require("imagekit");
@@ -77,9 +78,11 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use("/api", userRoutes);
-app.use("/api/mcq", mcqRoutes);
 app.use("/api", chatHistoryRoutes);
 app.use("/api", textRoutes);
+app.use("/api/openAI", openAIRoutes);
+
+app.use("/api/mcq", mcqRoutes);
 app.use("/api", mcqHistoryRoutes);
 
 app.get("/api/upload", (req, res) => {

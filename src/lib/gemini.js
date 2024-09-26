@@ -1,4 +1,5 @@
 const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require("@google/generative-ai");
+require("dotenv").config();
 
 const safetySettings = [
     {
@@ -34,7 +35,7 @@ const chat = model.startChat({
             ],
         },
     ],
-    generationCOnfig: {
+    generationConfig: {
         //   maxOutputTokens: 100,
     },
 });
@@ -58,7 +59,7 @@ const mcqModel = model.startChat({
             ],
         },
     ],
-    generationCOnfig: {
+    generationConfig: {
         //   maxOutputTokens: 100,
     },
 });

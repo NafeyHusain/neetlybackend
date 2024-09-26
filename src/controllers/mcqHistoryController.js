@@ -4,7 +4,7 @@ const UserQuestions = require("../models/questionChat");
 
 /**
  * @swagger
- * /api/mcq-history:
+ * /api/mcq/mcqHistory:
  *   post:
  *     summary: Save MCQ history for a user
  *     tags: [MCQ]
