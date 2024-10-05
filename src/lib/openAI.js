@@ -30,9 +30,10 @@ const initialChatHistory = [
 
 async function generateTextMessageOpenAI(topic) {
     try {
+        console.log(topic);
         console.log(topic[0]);
-        // Add the new user prompt to the history
-        const userMessage = { role: "user", content: topic[0] };
+        // Add the new user promptt to the history
+        const userMessage = { role: "user", content: topic };
         const history = [...initialChatHistory, userMessage];
         const response = await chatModel(history);
         console.log(response);
@@ -52,13 +53,14 @@ async function generateMultipleChoiceOpenAI(topic) {
             role: "user",
             content: `Assume experienced medical expert Generate tough and detailed multiple-choice questions on the topic: ${topic}`,
         };
-        const history = [...initialChatHistory, userMessage];
+        const history = [userMessage];
 
         // Call OpenAI API to generate MCQs
         const response = await chatModel(history);
 
         // Extract the response text (MCQs) from OpenAI
         const responseText = response.data.choices[0].message.content;
+    
         return responseText;
     } catch (error) {
         console.error("Error generating MCQs:", error.response?.data || error.message);
