@@ -38,7 +38,7 @@ async function generateMCQs(topic, numberOfQuestions = 10) {
     //         },
     //     });
     try {
-        const result = await generateTextMessageOpenAI(prompt);
+        const result = await generateTextMessage(prompt);
         console.log(result);
         // const content = result.response.data.choices[0].message.content;
         // console.log(content);
