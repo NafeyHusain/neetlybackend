@@ -11,6 +11,8 @@ const chatHistoryRoutes = require("./routes/chatHistoryRoutes");
 const textRoutes = require("./routes/textAnswersRoutes.js");
 const openAIRoutes = require("./routes/openAI/answerGeneratorOpenAI.js");
 
+const textEmbeddingRoutes = require("./routes/openAI/textEmbeddingRoutes.js");
+
 const mcqHistoryRoutes = require("./routes/mcqHistoryRoutes.js");
 const ImageKit = require("imagekit");
 const cors = require("cors");
@@ -84,6 +86,10 @@ app.use("/api/openAI", openAIRoutes);
 
 app.use("/api/mcq", mcqRoutes);
 app.use("/api", mcqHistoryRoutes);
+
+// ******************
+
+app.use("/api/", textEmbeddingRoutes);
 
 app.get("/api/upload", (req, res) => {
     const result = imagekit.getAuthenticationParameters();
