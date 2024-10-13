@@ -8,7 +8,7 @@ const openai = new OpenAIApi({
 // Chat model using GPT-4
 const chatModel = async (history) => {
     return openai.chat.completions.create({
-        model: "gpt-4", // You can change this to gpt-3.5-turbo if required
+        model: "gpt-4-turbo", // You can change this to gpt-3.5-turbo if required
         messages: history,
         max_tokens: 2000, // Configurable
         temperature: 0.5, // Adjust as needed

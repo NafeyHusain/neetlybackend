@@ -1,6 +1,7 @@
-const { generateTextMessage } = require("../lib/gemini");
+const { generateTextMessageOpenAI } = require("../../lib/openAI");
 
-exports.generateText = async (req, res) => {
+exports.generateTextOpenAI = async (req, res) => {
+    console.log(req.body.payload);
     try {
         let prompt = [];
         if (req.body.payload.data.length === 1) {
@@ -21,7 +22,7 @@ exports.generateText = async (req, res) => {
             return res.status(400).json({ error: "Topic is required" });
         }
 
-        const mcqs = await generateTextMessage(prompt);
+        const mcqs = await generateTextMessageOpenAI(prompt);
         res.json(mcqs);
     } catch (error) {
         console.error("Error in generateMCQ:", error);

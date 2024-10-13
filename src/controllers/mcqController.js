@@ -1,4 +1,4 @@
-const { generateMCQs } = require("../services/openaiService");
+const { generateMCQs } = require("../services/geminiAiService.js");
 
 /**
  * @swagger
