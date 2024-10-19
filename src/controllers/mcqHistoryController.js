@@ -246,6 +246,79 @@ exports.userMcqHistory = async (req, res) => {
     }
 };
 
+
+exports.subjectWiseMcq = async (req, res) => {
+    const userId = req.auth.userId;
+  
+    try {
+      // Fetch all user question history documents
+      const userQuestionData = await Question.find({ userId }).lean();
+  
+      if (!userQuestionData || userQuestionData.length === 0) {
+        return res.status(404).json({ message: 'No MCQ sets found for the user' });
+      }
+  
+      // Initialize an empty array to collect subjects
+      const subjects = [];
+  
+      // Iterate over each user's data document
+      userQuestionData.forEach((userData) => {
+        if (!userData.history) {
+          return;
+        }
+  
+        // Iterate over each topic in the history array
+        userData.history.forEach((topicData) => {
+          if (!topicData.questionData) {
+            return;
+          }
+  
+          const correctAnswersCount = topicData.questionData.filter((q) =>
+            q.correct?.sort().join() === q.userAnswer?.sort().join()
+          ).length;
+  
+          const successRate = Math.round((correctAnswersCount / topicData.totalQuestions) * 100);
+  
+          const mcqSet = {
+            uuid: userData._id.toString(),
+            setName: `${topicData.topic} Set 1`,
+            solvedQuestions: topicData.questionData.length,
+            totalQuestions: topicData.totalQuestions,
+            successRate,
+            canReattempt: successRate < 100,
+          };
+  
+          const subjectName = topicData.questionData[0]?.subject || 'General';
+          let subject = subjects.find((s) => s.subject === subjectName);
+          if (!subject) {
+            subject = {
+              subject: subjectName,
+              topics: [],
+            };
+            subjects.push(subject);
+          }
+  
+          let topic = subject.topics.find((t) => t.name === topicData.topic);
+          if (!topic) {
+            topic = {
+              name: topicData.topic,
+              mcqSets: [],
+            };
+            subject.topics.push(topic);
+          }
+          topic.mcqSets.push(mcqSet);
+        });
+      });
+  
+      res.status(200).json(subjects);
+    } catch (error) {
+      console.error('Error fetching MCQ set metadata:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+  
+
+
 /**
  * @swagger
  * /api/mcq/questHistory/{id}:
