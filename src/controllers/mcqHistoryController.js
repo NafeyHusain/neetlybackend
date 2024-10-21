@@ -418,3 +418,40 @@ exports.updateMcqHistoryWithId = async (req, res) => {
         res.status(500).send("Error updating MCQ history!");
     }
 };
+
+exports.updateMcqHistoryDataWithId = async (req, res) => {
+    const userId = req.auth.userId;
+    console.log(req.body);
+    const { topic, totalQuestions, questionData, marks } = req.body;
+  
+    const newHistoryEntry = {
+      topic,
+      totalQuestions,
+      marks,
+      questionData: questionData.map((q) => ({
+        text: q.text,
+        type: q.type,
+        options: q.options,
+        correct: q.correct,
+        explanation: q.explanation,
+        subject: q.subject || "not defined",
+        userAnswer: q.userAnswer || [],
+      })),
+    };
+  
+    try {
+      const updatedMcqHistory = await Question.updateOne(
+        { _id: req.params.id, userId },
+        {
+          $set: {
+            'history.0': newHistoryEntry,
+          },
+        }
+      );
+      res.status(200).json(updatedMcqHistory);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send("Error updating MCQ history!");
+    }
+  };
+  
