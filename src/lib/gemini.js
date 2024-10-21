@@ -22,7 +22,7 @@ const chat = model.startChat({
             role: "user",
             parts: [
                 {
-                    text: "Assume that you are experienced medical expert in medical science ,you are a professional , well trained doctor",
+                    text: "Assume that you are experienced medical expert in medical science ,you are a professional , well trained doctor,your aim is to provide a information to mbbs professionals",
                 },
             ],
         },
@@ -30,7 +30,7 @@ const chat = model.startChat({
             role: "model",
             parts: [
                 {
-                    text: "you are capable of generating expert level  content on medical case studies and detailed explanation for a scientist",
+                    text: "you are capable of generating expert level  content on medical case studies and detailed explanation for a scientist,you are a professional , well trained doctor,your aim is to provide a information to mbbs professionals",
                 },
             ],
         },
@@ -133,8 +133,51 @@ async function generateMultipleChoice(topic) {
         throw error;
     }
 }
+async function generateTextMessages(topic, imageBase64 = null,mime=null) {
+    try {
+        // Get the Gemini Pro Vision model
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-module.exports = { generateTextMessage, generateMultipleChoice };
+        // Construct dynamic message parts
+        const messageParts = [
+            { text: `Question: ${topic}` }, // Incorporate the dynamic topic
+        ];
+
+        if (imageBase64) {
+            const cleanBase64 = imageBase64.startsWith('data:image/') ? imageBase64.split(',')[1] : imageBase64;
+            messageParts.push({
+                inlineData: {
+                    mimeType:mime, // Adjust this if you're using a different image format
+                    data: cleanBase64
+                }
+            });
+        }
+
+        // Generate content
+        const result = await model.generateContentStream(messageParts);
+
+        let accumulatedText = "";
+        for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+            accumulatedText += chunkText;
+            console.log(accumulatedText);
+        }
+
+        // Attempt to parse the response as JSON
+        try {
+            const jsonResponse = JSON.parse(accumulatedText);
+            return jsonResponse;
+        } catch (parseError) {
+            console.error("Error parsing API response:", parseError);
+            // If parsing fails, return the raw text
+            return accumulatedText;
+        }
+    } catch (error) {
+        console.error("Error generating text message:", error);
+        throw error;
+    }
+}
+module.exports = { generateTextMessage, generateMultipleChoice,generateTextMessages };
 
 // const { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } = require("@google/generative-ai");
 
@@ -211,3 +254,6 @@ module.exports = { generateTextMessage, generateMultipleChoice };
 // }
 
 // module.exports = { generateTextMessage };
+
+
+
